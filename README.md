@@ -58,5 +58,33 @@ cmake ..
 make
 ```
 
-The compiled binary **httpors** will be available inside the **build/** directory.
+The compiled binary `httpors` will be available inside the `build/` directory.
 
+## 📖 Usage
+
+```bash
+./httpors [options]
+```
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `-f, --file <file>` | 📂 Read domains from a file |
+| `-sc, --status-code` | 🟢 Show HTTP status code |
+| `-ip` | 🌐 Show resolved IP address |
+| `-cl, --content-length` | 📏 Show response content length |
+| `-ct, --content-type` | 🗂️ Show response content type |
+| `--location` | 🔗 Show redirect location (if any) |
+| `-o, --output <file>` | 💾 Save output to a file |
+| `-h, --help` | ❓ Show this help menu |
+
+### Examples
+
+```bash
+./httpors -f subdomains.txt --sc --ip --cl
+subfinder -d example.com | ./httpors --sc --ip
+```
+
+### 👤 Author
+**Anon404 (William Steven)**
