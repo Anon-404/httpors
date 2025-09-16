@@ -18,6 +18,8 @@
 #define reset "\e[0m"
 
 FILE *fd = NULL;
+FILE *out = NULL;
+
 char BUFFER[128];
 size_t total_size = 0;
 
@@ -26,6 +28,7 @@ int show_location = 0;
 int show_content_length = 0;
 int show_content_type = 0;
 int show_ip = 0;
+int output = 0;
 
 int ARGC;
 char **ARGV;
@@ -69,7 +72,12 @@ int main(int argc, char *argv[]){
     } else if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i],"--domain") == 0) {
       printf("domain %s\n",argv[i+1]);
       i++;
-    } else if (strcmp(argv[i],"--status-code") == 0 || strcmp(argv[i],"--sc") == 0) show_status = 1;
+    } else if (strcmp(argv[i],"--output") == 0 || strcmp(argv[i],"-o") == 0) {
+      out = fopen(argv[i+1],"w");
+      output = 1;
+      i++;
+    }
+    else if (strcmp(argv[i],"--status-code") == 0 || strcmp(argv[i],"--sc") == 0) show_status = 1;
     else if (strcmp(argv[i],"--location") == 0) show_location = 1;
     else if (strcmp(argv[i],"--content-length") == 0 || strcmp(argv[i],"--cl") == 0) show_content_length = 1;
     else if (strcmp(argv[i],"--content-type") == 0 || strcmp(argv[i],"--ct") == 0) show_content_type = 1;
@@ -85,6 +93,13 @@ int main(int argc, char *argv[]){
   }
 
   handler();
+
+  if (output && out){
+    fclose(out);
+  }
+  if (fd) {
+    fclose(fd);
+  }
 
   return 0;
 }
@@ -118,23 +133,26 @@ void help() {
     printf(BGRN "  -f, --file <file>");
     printf(BWHT "           Read domains from file\n");
 
-    printf(BGRN "  --sc, --status-code");
-    printf(BWHT "         Show HTTP status code\n");
+    printf(BGRN "  -sc, --status-code");
+    printf(BWHT "          Show HTTP status code\n");
 
-    printf(BGRN "  --ip");
-    printf(BWHT "                        Show resolved IP address\n");
+    printf(BGRN "  -ip");
+    printf(BWHT "                         Show resolved IP address\n");
 
-    printf(BGRN "  --cl, --content-length");
-    printf(BWHT "      Show response content length\n");
+    printf(BGRN "  -cl, --content-length");
+    printf(BWHT "       Show response content length\n");
 
-    printf(BGRN "  --ct, --content-type");
-    printf(BWHT "        Show response content type\n");
+    printf(BGRN "  -ct, --content-type");
+    printf(BWHT "         Show response content type\n");
 
     printf(BGRN "  --location");
     printf(BWHT "                  Show redirect location (if any)\n");
 
     printf(BGRN "  -h, --help");
-    printf(BWHT "                  Show this help menu\n\n");
+    printf(BWHT "                  Show this help menu\n");
+
+    printf(BGRN "  -o, --output <out file>");
+    printf(BWHT "     Saving output on txt file\n\n");
 
     // Examples
     printf(BWHT "Examples:\n");
@@ -279,47 +297,63 @@ void httpors(char *dom){
 
 
   printf(BWHT"%s  ",url);
+  if (output && out) fprintf(out,"%s  ",url);
   for (int i = 1 ;i < ARGC; i++) {
     if (strcmp(ARGV[i],"--status-code") == 0 || strcmp(ARGV[i],"--sc") == 0){
       if (status != 0) {
-        if (status >= 200 && status < 300)
+        if (status >= 200 && status < 300) {
           printf(BGRN" [%d]", status);
-        else if (status >= 300 && status < 400)
+          if (output && out) fprintf(out," [%d]",status);
+
+        }else if (status >= 300 && status < 400) {
           printf(BYEL" [%d]", status);
-        else if (status >= 400)
+          if (output && out) fprintf(out," [%d]",status);
+
+        }else if (status >= 400) {
           printf(BRED" [%d]", status);
+          if (output && out) fprintf(out," [%d]",status);
+        }
+
       } else {
-        printf(BGRAY" [000]",status);
+        printf(BGRAY" [???]",status);
+        if (output && out) fprintf(out," [???]");
       }
     }
 
     if (strcmp(ARGV[i],"--ip") == 0) {
       if (ip != 0) {
         printf(BCYN" [%s]",ip);
+        if (output && out) fprintf(out," [%s]",ip);
       } else {
         printf("\t");
+        if (output && out) fprintf(out,"\t");
       }
     }
 
     if (strcmp(ARGV[i],"--content-type") == 0 || strcmp(ARGV[i],"--ct") == 0) {
       if (cont_type != NULL) {
         printf(BBLU" [%s]",cont_type);
+        if (output && out) fprintf(out," [%s]",cont_type);
       } else {
         printf(BGRAY" [?/?]");
+        if (output && out) fprintf(out," [?/?]");
       }
     }
 
     if (strcmp(ARGV[i],"--content-length") == 0 || strcmp(ARGV[i],"--cl") == 0){
       if (cont_len != 0) {
         printf(BMAG" [%zu]", total_size);
+        if (output && out) fprintf(out," [%zu]",total_size);
       } else {
         printf(BGRAY" [0]");
+        if (output && out) fprintf(out," [0]");
       }
     }
 
     if (strcmp(ARGV[i],"--location") == 0) {
       if (loc != NULL) {
-        printf(BBLU" [location: %s]", loc);
+        printf(BBLU" [loc: %s]", loc);
+        if (output && out) fprintf(out," [loc: %s]",loc);
       } else {
         printf("");
       }
@@ -328,6 +362,7 @@ void httpors(char *dom){
   }
 
   printf("\n");
+  if (output && out) fprintf(out,"\n");
   curl_easy_cleanup(curl);
 
 }
