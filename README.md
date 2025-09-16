@@ -25,3 +25,38 @@
 - GCC / Clang  
 - `libcurl` development library  
 - `CMake` (3.10 or higher)  
+
+---
+
+### 💻 Linux (Debian/Ubuntu)
+
+```bash
+sudo apt update
+sudo apt install build-essential cmake libcurl4-openssl-dev
+```
+### 🏔️ Linux (Arch/Manjaro)
+
+```bash
+sudo pacman -Syu base-devel cmake curl
+```
+
+### 📱 Termux (Android)
+
+```bash
+pkg update && pkg upgrade
+pkg install clang cmake curl
+```
+
+### 🔧 Build with CMake
+
+```bash
+git clone <your-repo-url>
+cd httpors
+mkdir build
+cd build
+cmake ..
+make
+```
+
+The compiled binary **httpors** will be available inside the **build/** directory.
+
