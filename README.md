@@ -50,7 +50,7 @@ pkg install clang cmake curl
 ### 🔧 Build with CMake
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Anon-404/httpors.git
 cd httpors
 mkdir build
 cd build
