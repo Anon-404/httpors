@@ -7,7 +7,7 @@
 ## ✨ Features
 
 - ⚡ Multi-threaded HTTP probing  
-- 📂 Read domains from a file or stdin  
+- 📂 Read domains from a file or `stdin`  
 - 🟢 Display HTTP status codes (color-coded)  
 - 🌐 Show resolved IP addresses  
 - 📏 Display content length  
