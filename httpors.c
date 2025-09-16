@@ -177,8 +177,7 @@ void handler(){
       thread_arg *targ = malloc(sizeof(thread_arg));
       strcpy(targ->domain, BUFFER);
 
-      pthread_create(&tids[tcount], NULL, thread,targ);
-      tcount++;
+      pthread_create(&tids[tcount], NULL, thread,targ);                                                                                                       tcount++;
 
     }
   } else {
@@ -296,7 +295,7 @@ void httpors(char *dom){
   printf(BWHT"%s  ",url);
   if (output && out) fprintf(out,"%s  ",url);
   for (int i = 1 ;i < ARGC; i++) {
-    if (strcmp(ARGV[i],"--status-code") == 0 || strcmp(ARGV[i],"--sc") == 0){
+    if (strcmp(ARGV[i],"--status-code") == 0 || strcmp(ARGV[i],"-sc") == 0){
       if (status != 0) {
         if (status >= 200 && status < 300) {
           printf(BGRN" [%d]", status);
@@ -317,7 +316,7 @@ void httpors(char *dom){
       }
     }
 
-    if (strcmp(ARGV[i],"--ip") == 0) {
+    if (strcmp(ARGV[i],"-ip") == 0) {
       if (ip != 0) {
         printf(BCYN" [%s]",ip);
         if (output && out) fprintf(out," [%s]",ip);
@@ -327,7 +326,7 @@ void httpors(char *dom){
       }
     }
 
-    if (strcmp(ARGV[i],"--content-type") == 0 || strcmp(ARGV[i],"--ct") == 0) {
+    if (strcmp(ARGV[i],"--content-type") == 0 || strcmp(ARGV[i],"-ct") == 0) {
       if (cont_type != NULL) {
         printf(BBLU" [%s]",cont_type);
         if (output && out) fprintf(out," [%s]",cont_type);
@@ -337,7 +336,7 @@ void httpors(char *dom){
       }
     }
 
-    if (strcmp(ARGV[i],"--content-length") == 0 || strcmp(ARGV[i],"--cl") == 0){
+    if (strcmp(ARGV[i],"--content-length") == 0 || strcmp(ARGV[i],"-cl") == 0){
       if (cont_len != 0) {
         printf(BMAG" [%zu]", total_size);
         if (output && out) fprintf(out," [%zu]",total_size);
