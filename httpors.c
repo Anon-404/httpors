@@ -69,23 +69,20 @@ int main(int argc, char *argv[]){
       }
       i++;
 
-    } else if (strcmp(argv[i],"-d") == 0 || strcmp(argv[i],"--domain") == 0) {
-      printf("domain %s\n",argv[i+1]);
-      i++;
     } else if (strcmp(argv[i],"--output") == 0 || strcmp(argv[i],"-o") == 0) {
       out = fopen(argv[i+1],"w");
       output = 1;
       i++;
     }
-    else if (strcmp(argv[i],"--status-code") == 0 || strcmp(argv[i],"--sc") == 0) show_status = 1;
+    else if (strcmp(argv[i],"--status-code") == 0 || strcmp(argv[i],"-sc") == 0) show_status = 1;
     else if (strcmp(argv[i],"--location") == 0) show_location = 1;
-    else if (strcmp(argv[i],"--content-length") == 0 || strcmp(argv[i],"--cl") == 0) show_content_length = 1;
-    else if (strcmp(argv[i],"--content-type") == 0 || strcmp(argv[i],"--ct") == 0) show_content_type = 1;
+    else if (strcmp(argv[i],"--content-length") == 0 || strcmp(argv[i],"-cl") == 0) show_content_length = 1;
+    else if (strcmp(argv[i],"--content-type") == 0 || strcmp(argv[i],"-ct") == 0) show_content_type = 1;
     else if (strcmp(argv[i],"--help") == 0 || strcmp(argv[i],"-h") == 0) {
       help();
       return 0;
     }
-    else if (strcmp(argv[i],"--ip") == 0) show_ip = 1;
+    else if (strcmp(argv[i],"-ip") == 0) show_ip = 1;
     else {
       printf("Unknown option %s\n",argv[i]);
       return 1;
