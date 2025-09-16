@@ -82,8 +82,8 @@ The compiled binary `httpors` will be available inside the `build/` directory.
 ### Examples
 
 ```bash
-./httpors -f subdomains.txt --sc --ip --cl
-subfinder -d example.com | ./httpors --sc --ip
+./httpors -f subdomains.txt -sc --ip -cl
+subfinder -d example.com | ./httpors -sc --ip
 ```
 
 ### 👤 Author
